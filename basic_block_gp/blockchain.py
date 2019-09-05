@@ -64,7 +64,6 @@ class Blockchain(object):
         "return": <str>
         """
 
-
         # json.dumps converts json into a string
         # hashlib.sha246 is used to createa hash
         # It requires a `bytes-like` object, which is what
@@ -78,7 +77,7 @@ class Blockchain(object):
         # that will likely include escaped characters.
         # This can be hard to read, but .hexdigest() converts the
         # hash to a string using hexadecimal characters, which is
-        # easer to work with and understand.  
+        # easer to work with and understand.
         return hashlib.sha256(block_string).hexdigest()
 
     @property
@@ -92,9 +91,13 @@ class Blockchain(object):
         zeroes
         :return: A valid proof for the provided block
         """
-        # TODO
-        pass
-        # return proof
+        block_string = json.dumps(self.last_block, sort_keys=True).encode()
+        proof = 0
+        # while validproof() returns false
+        while not self.valid_proof(block_string, proof):
+            proof += 1
+
+        return proof
 
     @staticmethod
     def valid_proof(block_string, proof):
